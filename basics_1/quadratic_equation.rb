@@ -11,8 +11,6 @@ c = gets.to_f
 puts "c = #{c}"
 
 D = b**2 - 4 * a * c
-x1 = (-b + Math.sqrt(D)) / (2 * a)
-x2 = (-b - Math.sqrt(D)) / (2 * a)
 
 if D < 0
     puts "Дискриминант равен #{D}. Корней нет."
