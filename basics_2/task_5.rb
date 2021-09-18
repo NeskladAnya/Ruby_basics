@@ -39,5 +39,3 @@ else
     end
   end
 end
-
-puts count
