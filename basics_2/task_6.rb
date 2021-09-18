@@ -18,10 +18,11 @@ end
 total_price = 0
 
 goods.each do |key, value|
-  puts "Товар: #{key}. Цена за единицу: #{value[:price]}, количество: #{value[:quantity]}"
   item_price = value[:price] * value[:quantity]
-  puts "Стоимость товара: #{item_price}"
   total_price += item_price
+
+  puts "Товар: #{key}. Цена за единицу: #{value[:price]}, количество: #{value[:quantity]}"
+  puts "Стоимость товара: #{item_price}"
 end
 
 puts "Стоимость всех товаров: #{total_price}"
