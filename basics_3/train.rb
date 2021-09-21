@@ -28,25 +28,22 @@ class Train
   end
 
   def previous_station
-    index = @route.find_index(@current_station)
     if @current_station != @route.first
-      previous_station = @route[index - 1]
+      previous_station = @route[@route.find_index(@current_station) - 1]
     else
       puts "Вы на начальной станции."
     end
   end
 
   def next_station
-    index = @route.find_index(@current_station)
     if @current_station != @route.last
-      next_station = @route[index + 1]
+      next_station = @route[@route.find_index(@current_station) + 1]
     else
       puts "Вы на конечной станции."
     end
   end
 
   def move(action)
-    index = @route.find_index(@current_station)
 
     case 
     when 
@@ -54,7 +51,7 @@ class Train
       if @current_station == @route.last
         puts "Вы на конечной станции. Просьба покинуть вагон."
       else
-        @current_station = @route[index + 1]
+        @current_station = @route[@route.find_index(@current_station) + 1]
       end
 
     when 
@@ -62,7 +59,7 @@ class Train
       if @current_station == @route.first
         puts "Вы на начальной станции."
       else
-        @current_station = @route[index - 1]
+        @current_station = @route[@route.find_index(@current_station) - 1]
       end
     end
   end
