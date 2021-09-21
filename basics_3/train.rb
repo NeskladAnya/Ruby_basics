@@ -44,7 +44,6 @@ class Train
   end
 
   def move(action)
-
     case 
     when 
       action == "вперёд" then
