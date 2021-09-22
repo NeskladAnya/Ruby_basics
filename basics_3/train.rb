@@ -39,13 +39,13 @@ class Train
   end
 
   def move_forward
-    unless @current_station == @route.stations.last
+    unless self.next_station.nil?
       @current_station = @route.stations[@route.stations.index(@current_station) + 1]
     end
   end
 
   def move_backward
-    unless @current_station == @route.stations.first
+    unless self.previous_station.nil?
       @current_station = @route.stations[@route.stations.index(@current_station) - 1]
     end
   end
