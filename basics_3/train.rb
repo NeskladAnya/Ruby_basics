@@ -13,53 +13,40 @@ class Train
     @speed = 0
   end
 
-  def change_carriages_number(action)
-    if speed == 0
-      @carriages_number += 1 if action == "прицепить"
-      @carriages_number -= 1 if action == "отцепить"
-    else
-      puts "Остановите поезд, чтобы изменить количество вагонов!"
-    end
+  def add_carriage
+    @carriages_number += 1 if speed == 0
+  end
+
+  def remove_carriage
+    @carriages_number -= 1 if speed == 0
   end
 
   def set_route(route)
-    @route = route.stations 
-    @current_station = @route[0]
+    @route = route
+    @current_station = route.stations[0]
   end
 
   def previous_station
-    if @current_station != @route.first
-      previous_station = @route[@route.find_index(@current_station) - 1]
-    else
-      puts "Вы на начальной станции."
+    if @current_station != @route.stations.first
+      previous_station = @route.stations[@route.stations.index(@current_station) - 1]
     end
   end
 
   def next_station
-    if @current_station != @route.last
-      next_station = @route[@route.find_index(@current_station) + 1]
-    else
-      puts "Вы на конечной станции."
+    if @current_station != @route.stations.last
+      next_station = @route.stations[@route.stations.index(@current_station) + 1]
     end
   end
 
-  def move(action)
-    case 
-    when 
-      action == "вперёд" then
-      if @current_station == @route.last
-        puts "Вы на конечной станции. Просьба покинуть вагон."
-      else
-        @current_station = @route[@route.find_index(@current_station) + 1]
-      end
+  def move_forward
+    unless @current_station == @route.stations.last
+      @current_station = @route.stations[@route.stations.index(@current_station) + 1]
+    end
+  end
 
-    when 
-      action == "назад" then
-      if @current_station == @route.first
-        puts "Вы на начальной станции."
-      else
-        @current_station = @route[@route.find_index(@current_station) - 1]
-      end
+  def move_backward
+    unless @current_station == @route.stations.first
+      @current_station = @route.stations[@route.stations.index(@current_station) - 1]
     end
   end
 

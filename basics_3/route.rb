@@ -10,11 +10,8 @@ class Route
   end
 
   def remove_station(station)
-    case
-    when station == @stations[0] then puts "Начальную станцию удалить нельзя"
-    when station == @stations[-1] then puts "Конечную станцию удалить нельзя"
-    when @stations.include?(station) then @stations.delete(station)
-    else puts "Станция не найдена"
+    if @stations.include?(station) && (station != @stations[0] && station != @stations[-1])
+      @stations.delete(station)
     end
   end
 end
