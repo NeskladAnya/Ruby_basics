@@ -7,6 +7,7 @@ class Train
     @number = number
     @type = self.type
     @carriages = []
+    @speed = 0
   end
 
   def stop
