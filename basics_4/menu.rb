@@ -1,34 +1,40 @@
 class Menu
-  attr_reader :option
+  attr_reader :menu_answer
   
-  def options
-    @options = [
-      "If you want to create a station, type 1",
-      "If you want to check a list of all stations, type 2",
-      "If you want to add a station to the route, type 3",
-      "If you want to remove a station from the route, type 4",
-      "If you want to check a list of trains at the station, type 5",
-      "---",
-      "If you want to create a route, type 6",
-      "If you want to add a route to the train, type 7",
-      "If you want to check a list of route stations, type 8",
-      "---",
-      "If you want to create a train, type 9",
-      "If you want to add a carriage to the train, type 10",
-      "If you want to detach a carriage from the train, type 11",
-      "If you want to move a train one station forward, type 12",
-      "If you want to move a train one station bacward, type 13",
-      "---",
-      "If you want to exit, type 0",
-      "------------"
-    ]
-  end
-
   def menu
-    self.options.each { |station| puts station}
+    puts "To create an object, type 1"
+    puts "To perform actions with an object, type 2"
+    puts "To see info, type 3"
+    puts "To exit, type 0"
+    puts "----------------"
+    
+    @menu_answer = gets.chomp.to_i
   end
 
-  def set_option
-    @option = gets.chomp.to_i
+
+  def sub_menu
+    if @menu_answer == 1
+      puts "To create a station, type 1"
+      puts "To create a route, type 2"
+      puts "To create a train, type 3"
+      puts "----------------"
+    elsif @menu_answer == 2
+      puts "To add a station to the route, type 4"
+      puts "To remove a station from the route, type 5"
+      puts "To add a route to the train, type 6"
+      puts "To add a carriage to the the train, type 7"
+      puts "To detach a carriage from the train, type 8"
+      puts "To move a train one station forward, type 9"
+      puts "To move a train one station backward, type 10"
+      puts "----------------"
+    elsif @menu_answer == 3
+      puts "To see a list of all stations, type 11"
+      puts "To see a list of trains at the station, type 12"
+      puts "----------------"
+    end
+  end
+
+  def sub_menu_answer
+    @sub_menu_answer = gets.chomp.to_i
   end
 end
