@@ -1,11 +1,91 @@
 class Interface
-  attr_reader :all_stations, :all_routes, :all_trains, :selected_station
+  attr_reader :all_stations, :all_routes, :all_trains, :selected_station, :menu_answer
 
   def initialize
     @all_stations = []
     @all_routes = []
     @all_trains = []
   end
+
+  def interface_loop
+    loop do
+      self.menu
+    
+      if @menu_answer == 0
+        break
+      else
+        self.sub_menu
+        answer = self.sub_menu_answer
+      end
+    
+      case answer
+      when 1
+        self.new_station
+      when 2
+        self.new_route
+      when 3
+        self.new_train
+      when 4
+        self.add_route_station
+      when 5
+        self.remove_route_station
+      when 6
+        self.set_train_route
+      when 7
+        self.add_carriage
+      when 8
+        self.remove_carriage
+      when 9
+        self.move_train_forward
+      when 10
+        self.move_train_backward
+      when 11
+        self.see_all_stations
+      when 12
+        self.display_station_trains
+      else
+        puts "Error"
+      end
+    end
+  end
+
+  protected
+  def menu
+    puts "To create an object, type 1"
+    puts "To perform actions with an object, type 2"
+    puts "To see info, type 3"
+    puts "To exit, type 0"
+    puts "----------------"
+    
+    @menu_answer = gets.chomp.to_i
+  end
+
+  def sub_menu
+    if @menu_answer == 1
+      puts "To create a station, type 1"
+      puts "To create a route, type 2"
+      puts "To create a train, type 3"
+      puts "----------------"
+    elsif @menu_answer == 2
+      puts "To add a station to the route, type 4"
+      puts "To remove a station from the route, type 5"
+      puts "To add a route to the train, type 6"
+      puts "To add a carriage to the the train, type 7"
+      puts "To detach a carriage from the train, type 8"
+      puts "To move a train one station forward, type 9"
+      puts "To move a train one station backward, type 10"
+      puts "----------------"
+    elsif @menu_answer == 3
+      puts "To see a list of all stations, type 11"
+      puts "To see a list of trains at the station, type 12"
+      puts "----------------"
+    end
+  end
+
+  def sub_menu_answer
+    @sub_menu_answer = gets.chomp.to_i
+  end
+
   def new_station
     print "Enter a station name: "
     name = gets.chomp
@@ -173,10 +253,6 @@ class Interface
       puts "Error"
     end
   end
-
-  protected
-  #Данные методы используются только другими методами в рамках класса.
-  #Нет необходимости делать их публичными.
 
   def get_station(name)
     @all_stations.find { |station| station.station_name == name}
