@@ -1,4 +1,6 @@
 class Train
+  include Manufacturer
+
   attr_reader :number, :type, :carriages, :current_station, :previous_station,
               :next_station, :route
   attr_accessor :speed
