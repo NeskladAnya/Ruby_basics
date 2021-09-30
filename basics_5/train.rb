@@ -4,12 +4,19 @@ class Train
   attr_reader :number, :type, :carriages, :current_station, :previous_station,
               :next_station, :route
   attr_accessor :speed
+
+  @@instances = []
+
+  def self.find(number)
+    @@instances.find { |train| train.number == number}
+  end
   
   def initialize(number)
-    @number = number
+    @number = number.to_s
     @type = self.type
     @carriages = []
     @speed = 0
+    @@instances.push(self)
   end
 
   def stop
