@@ -5,15 +5,15 @@ module InstanceCounter
   end
 
   module ClassMethods
-    @@count = 0
 
     def instances
-      @@count
+      @instances
     end
 
     protected
     def increase_instance
-      @@count += 1
+      @instances = 0 if @instances.nil?
+      @instances += 1
     end
   end
 
