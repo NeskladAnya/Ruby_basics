@@ -7,7 +7,7 @@ module InstanceCounter
   module ClassMethods
 
     def instances
-      @instances
+      @instances ||= 0
     end
 
     protected
