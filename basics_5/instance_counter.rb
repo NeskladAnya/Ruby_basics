@@ -5,6 +5,7 @@ module InstanceCounter
   end
 
   module ClassMethods
+    attr_writer :instances
 
     def instances
       @instances ||= 0
@@ -12,8 +13,7 @@ module InstanceCounter
 
     protected
     def increase_instance
-      @instances = 0 if @instances.nil?
-      @instances += 1
+      self.instances += 1
     end
   end
 

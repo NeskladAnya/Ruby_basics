@@ -13,7 +13,7 @@ class Train
   end
   
   def initialize(number)
-    @number = number.to_str
+    @number = number
     @type = self.type
     @carriages = []
     @speed = 0
