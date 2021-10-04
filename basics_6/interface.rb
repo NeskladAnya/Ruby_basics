@@ -49,7 +49,7 @@ class Interface
     end
   end
 
-  protected
+ # protected
   def menu
     puts "To create an object, type 1"
     puts "To perform actions with an object, type 2"
@@ -91,6 +91,9 @@ class Interface
     name = gets.chomp
 
     @all_stations << Station.new(name)
+  rescue Exception => e
+    puts e.message
+    retry
   end
 
   def see_all_stations

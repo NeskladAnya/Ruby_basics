@@ -21,7 +21,14 @@ class Train
     @speed = 0
     @@trains.push(self)
     register_instance
-    train_number_format
+    validate!
+  end
+
+  def valide?
+    validate!
+    true
+  rescue
+    false
   end
 
   def stop
@@ -71,7 +78,8 @@ class Train
   end
 
   private
-  def train_number_format
-    raise "Incorrect number format!" if number !~ TRAIN_NUMBER
+  def validate!
+    raise "A train number cannot be empty" if number.empty?
+    raise "Incorrect number format" if number !~ TRAIN_NUMBER
   end
 end
