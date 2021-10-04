@@ -49,7 +49,7 @@ class Interface
     end
   end
 
- # protected
+  protected
   def menu
     puts "To create an object, type 1"
     puts "To perform actions with an object, type 2"
@@ -91,6 +91,7 @@ class Interface
     name = gets.chomp
 
     @all_stations << Station.new(name)
+    puts "A station #{name} was created"
   rescue Exception => e
     puts e.message
     retry
@@ -115,6 +116,10 @@ class Interface
     
     @all_routes << route
     @all_stations.push(route.starting_station, route.end_station)
+    puts "A new route from #{first} to #{last} was created"
+  rescue Exception => e
+    puts e.message
+    retry
   end
 
   def add_route_station
@@ -168,16 +173,23 @@ class Interface
   end
 
   def new_train
+    print "Enter a train number: "
+    number = gets.chomp
+
     print "Enter the train type ('cargo' or 'passenger'): "
     type = gets.chomp.downcase
 
-    print "Enter a train number: "
-    number = gets.chomp
     if type == "cargo"
       @all_trains << CargoTrain.new(number)
     elsif type == "passenger"
       @all_trains << PassengerTrain.new(number)
+    else
+      raise "Incorrect train type"
     end
+    puts "A #{type} train number #{number} was created"
+  rescue Exception => e
+    puts e.message
+    retry
   end
 
   def set_train_route
