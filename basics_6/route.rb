@@ -14,8 +14,13 @@ class Route
   end
 
   def remove_station(station)
-    if @stations.include?(station) && (station != @stations[0] && station != @stations[-1])
-      @stations.delete(station)
-    end
+    raise "No station found" unless @stations.include?(station)
+    raise "The first station cannot be deleted" if station == self.stations[0]
+    raise "The last station cannot be deleted" if station == self.stations[-1]
+    
+    @stations.delete(station)
+    puts "The #{station.station_name} station was deleted"
+  rescue Exception => e
+    puts e.message
   end
 end
