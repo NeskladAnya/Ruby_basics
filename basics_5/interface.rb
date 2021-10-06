@@ -169,7 +169,7 @@ class Interface
     type = gets.chomp.downcase
 
     print "Enter a train number: "
-    number = gets.chomp
+    number = gets.chomp.to_i
     if type == "cargo"
       @all_trains << CargoTrain.new(number)
     elsif type == "passenger"
@@ -180,7 +180,7 @@ class Interface
   def set_train_route
     if @all_trains.any? && @all_routes.any?
       print "Enter the train number: "
-      number = gets.chomp
+      number = gets.chomp.to_i
 
       print "Enter the first route station: "
       first_station = gets.chomp
@@ -199,7 +199,7 @@ class Interface
 
   def add_carriage
     print "Enter the train number: "
-    number = gets.chomp
+    number = gets.chomp.to_i
 
     train = get_train(number)
     
@@ -217,7 +217,7 @@ class Interface
 
   def remove_carriage
     print "Enter the train number: "
-    number = gets.chomp
+    number = gets.chomp.to_i
 
     train = get_train(number)
 
@@ -230,7 +230,7 @@ class Interface
 
   def move_train_forward
     print "Enter a train number: "
-    number = gets.chomp
+    number = gets.chomp.to_i
 
     train = get_train(number)
 
@@ -243,7 +243,7 @@ class Interface
 
   def move_train_backward
     print "Enter a train number: "
-    number = gets.chomp
+    number = gets.chomp.to_i
 
     train = get_train(number)
 

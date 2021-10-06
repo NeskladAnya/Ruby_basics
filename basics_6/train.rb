@@ -6,8 +6,6 @@ class Train
               :next_station, :route
   attr_accessor :speed
 
-  TRAIN_NUMBER = /\A[0-9a-zа-я]{3}\-?[0-9a-zа-я]{2}\z/i
-
   @@trains = []
 
   def self.find(number)
@@ -20,21 +18,14 @@ class Train
     @carriages = []
     @speed = 0
     @@trains.push(self)
-    register_instance
-    validate!
-  end
-
-  def valide?
-    validate!
-    true
-  rescue
-    false
+    register_instance 
   end
 
   def stop
     @speed = 0
   end
 
+#private
   def add_carriage(carriage)
     @carriages << carriage if speed == 0 && self.type == carriage.type
   end
@@ -75,11 +66,5 @@ class Train
       @current_station = @route.stations[@route.stations.index(@current_station) - 1]
       @current_station.train_arrives(self)
     end
-  end
-
-  private
-  def validate!
-    raise "A train number cannot be empty" if number.empty?
-    raise "Incorrect number format" if number !~ TRAIN_NUMBER
   end
 end

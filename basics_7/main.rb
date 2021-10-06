@@ -1,3 +1,5 @@
+require_relative 'instance_counter'
+require_relative 'manufacturer'
 require_relative 'interface'
 require_relative 'station'
 require_relative 'route'

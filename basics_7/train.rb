@@ -1,20 +1,40 @@
 class Train
+  include Manufacturer
+  include InstanceCounter
+
   attr_reader :number, :type, :carriages, :current_station, :previous_station,
               :next_station, :route
   attr_accessor :speed
+
+  TRAIN_NUMBER = /\A[0-9a-zа-я]{3}\-?[0-9a-zа-я]{2}\z/i
+
+  @@trains = []
+
+  def self.find(number)
+    @@trains.find { |train| train.number == number}
+  end
   
   def initialize(number)
-    @number = number
+    @number = number.to_s
     @type = self.type
     @carriages = []
     @speed = 0
+    @@trains.push(self)
+    register_instance
+    validate!
+  end
+
+  def valide?
+    validate!
+    true
+  rescue
+    false
   end
 
   def stop
     @speed = 0
   end
 
-#private
   def add_carriage(carriage)
     @carriages << carriage if speed == 0 && self.type == carriage.type
   end
@@ -55,5 +75,11 @@ class Train
       @current_station = @route.stations[@route.stations.index(@current_station) - 1]
       @current_station.train_arrives(self)
     end
+  end
+
+  private
+  def validate!
+    raise "A train number cannot be empty" if number.empty?
+    raise "Incorrect number format" if number !~ TRAIN_NUMBER
   end
 end

@@ -13,6 +13,14 @@ class Station
     @station_trains = []
     @@instances.push(self)
     register_instance
+    validate!
+  end
+
+  def valide?
+    validate!
+    true
+  rescue
+    false
   end
 
   def train_arrives(train)
@@ -27,5 +35,10 @@ class Station
     @station_trains.delete(train)
   end
 
+  private
+  def validate!
+    raise "A station name cannot be empty" if station_name.empty?
+    raise "A station name should be at least 2 symbols" if station_name.length < 2
+  end
 end
 

@@ -91,17 +91,14 @@ class Interface
     name = gets.chomp
 
     @all_stations << Station.new(name)
-    puts "A station #{name} was created"
-  rescue Exception => e
-    puts e.message
-    retry
   end
 
   def see_all_stations
-    raise "No stations found" if @all_stations.empty?
-    @all_stations.each { |station| puts station.station_name}
-  rescue Exception => e
-      puts e.message
+    if @all_stations.any?
+      @all_stations.each { |station| puts station.station_name}
+    else
+      puts "Error"
+    end
   end
 
   def new_route
@@ -115,58 +112,46 @@ class Interface
     
     @all_routes << route
     @all_stations.push(route.starting_station, route.end_station)
-    puts "A new route #{first} - #{last} was created"
-  rescue Exception => e
-    puts e.message
-    retry
   end
 
   def add_route_station
-    raise "No stations found" if @all_stations.empty?
-    raise "No routes found" if @all_routes.empty?
-
-    print "Enter the station name: "
-    station_name = gets.chomp
+    if @all_stations.any? && @all_routes.any?
+      print "Enter the station name: "
+      station_name = gets.chomp
       
-    print "Enter the first route station: "
-    first_station = gets.chomp
+      print "Enter the first route station: "
+      first_station = gets.chomp
 
-    print "Enter the last route station: "
-    last_station = gets.chomp
+      print "Enter the last route station: "
+      last_station = gets.chomp
 
-    station = self.get_station(station_name)
-    raise "No station found" if station.nil?
+      station = self.get_station(station_name)
+      route = self.get_route(first_station, last_station)
 
-    route = self.get_route(first_station, last_station)
-    raise "No route found" if route.nil?
-
-    route.add_station(station)
-    puts "Station #{station_name} was added to the route #{first_station} - #{last_station}."
-  rescue Exception => e
-    puts e.message
+      route.add_station(station)
+    else
+      puts "Error"
+    end
   end
 
   def remove_route_station
-    raise "No routes found" if @all_routes.empty?
+    if @all_routes.any?
+      print "Enter the station name: "
+      station_name = gets.chomp
+      
+      print "Enter the first route station: "
+      first_station = gets.chomp
 
-    print "Enter the station name: "
-    station_name = gets.chomp
-    
-    print "Enter the first route station: "
-    first_station = gets.chomp
+      print "Enter the last route station: "
+      last_station = gets.chomp
 
-    print "Enter the last route station: "
-    last_station = gets.chomp
-
-    station = self.get_station(station_name)
-    raise "No station found" if station.nil?
-
-    route = self.get_route(first_station, last_station)
-    raise "No route found" if route.nil?
-    
-    route.remove_station(station)
-  rescue Exception => e
-    puts e.message
+      station = self.get_station(station_name)
+      route = self.get_route(first_station, last_station)
+      
+      route.remove_station(station) if route.stations.include?(station)
+    else
+      puts "Error"
+    end
   end
 
   def display_station_trains
@@ -174,31 +159,22 @@ class Interface
     name = gets.chomp
 
     station = self.get_station(name)
-    raise "No station found" if station.nil?
-
-    station.station_trains.each { |train| puts train.number }
-  rescue Exception => e
-    puts e.message
+    station.station_trains.each do |train|
+      puts train.number
+    end
   end
 
   def new_train
-    print "Enter a train number: "
-    number = gets.chomp
-
     print "Enter the train type ('cargo' or 'passenger'): "
     type = gets.chomp.downcase
 
+    print "Enter a train number: "
+    number = gets.chomp
     if type == "cargo"
       @all_trains << CargoTrain.new(number)
     elsif type == "passenger"
       @all_trains << PassengerTrain.new(number)
-    else
-      raise "Incorrect train type"
     end
-    puts "A #{type} train number #{number} was created"
-  rescue Exception => e
-    puts e.message
-    retry
   end
 
   def set_train_route
@@ -226,18 +202,17 @@ class Interface
     number = gets.chomp
 
     train = get_train(number)
-
-    raise "No train found" unless @all_trains.include?(train)
     
-    if train.type == "cargo"
-      carriage = CargoCarriage.new
-    elsif train.type == "passenger"
-      carriage = PassengerCarriage.new
+    if @all_trains.include?(train)
+      if train.type == "cargo"
+        carriage = CargoCarriage.new
+      elsif train.type == "passenger"
+        carriage = PassengerCarriage.new
+      end
+      train.add_carriage(carriage)
+    else
+      puts "Error"
     end
-
-    train.add_carriage(carriage)
-  rescue Exception => e
-    puts e.message
   end
 
   def remove_carriage
@@ -246,12 +221,11 @@ class Interface
 
     train = get_train(number)
 
-    raise "No train found" unless @all_trains.include?(train)
-    raise "The train doesn't have a carriage" if train.carriages.nil?
-
-    train.remove_carriage
-  rescue Exception => e
-    puts e.message
+    if @all_trains.include?(train)
+      train.remove_carriage
+    else
+      puts "Error"
+    end
   end
 
   def move_train_forward
@@ -260,12 +234,11 @@ class Interface
 
     train = get_train(number)
 
-    raise "No train found" unless @all_trains.include?(train)
-    raise "The train doesn't have a route" if train.route.nil?
-
-    train.move_forward
-  rescue Exception => e
-    puts e.message
+    if @all_trains.include?(train)
+      train.move_forward
+    else
+      puts "Error"
+    end
   end
 
   def move_train_backward
@@ -274,16 +247,15 @@ class Interface
 
     train = get_train(number)
 
-    raise "No train found" unless @all_trains.include?(train)
-    raise "The train doesn't have a route" if train.route.nil?
-
-    train.move_backward
-  rescue Exception => e
-    puts e.message
+    if @all_trains.include?(train)
+      train.move_backward
+    else
+      puts "Error"
+    end
   end
 
   def get_station(name)
-    @all_stations.find { |station| station.station_name == name }
+    @all_stations.find { |station| station.station_name == name}
   end
 
   def get_route(first_station, last_station)
