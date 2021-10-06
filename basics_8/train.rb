@@ -77,6 +77,10 @@ class Train
     end
   end
 
+  def train_block(&block)
+    carriages.each(&block)
+  end
+
   private
   def validate!
     raise "A train number cannot be empty" if number.empty?

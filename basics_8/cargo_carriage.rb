@@ -1,6 +1,6 @@
 class CargoCarriage < Carriage
   attr_reader :capacity, :available_capacity, :used_capacity
-  
+
   def initialize(capacity)
     @capacity = capacity
     @available_capacity = capacity
@@ -13,7 +13,7 @@ class CargoCarriage < Carriage
   end
 
   def use_capacity(value)
-    raise "Unsufficient capacity is available" if value > @available_capacity
+    raise "Unsufficient capacity" if value > @available_capacity
     @available_capacity -= value
     @used_capacity += value
   rescue Exception => e

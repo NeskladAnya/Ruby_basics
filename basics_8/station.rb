@@ -35,6 +35,10 @@ class Station
     @station_trains.delete(train)
   end
 
+  def station_block(&block)
+    station_trains.each(&block)
+  end
+
   private
   def validate!
     raise "A station name cannot be empty" if station_name.empty?
