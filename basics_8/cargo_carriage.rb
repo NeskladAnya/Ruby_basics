@@ -1,5 +1,5 @@
 class CargoCarriage < Carriage
   def type
-    "cargo"
+    @type = "cargo"
   end
 end

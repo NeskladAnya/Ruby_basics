@@ -1,3 +1,15 @@
+require_relative 'instance_counter'
+require_relative 'manufacturer'
+require_relative 'interface'
+require_relative 'station'
+require_relative 'route'
+require_relative 'train'
+require_relative 'cargo_train'
+require_relative 'passenger_train'
+require_relative 'carriage'
+require_relative 'cargo_carriage'
+require_relative 'passenger_carriage'
+
 class Interface
   attr_reader :all_stations, :all_routes, :all_trains, :selected_station, :menu_answer
 
@@ -49,7 +61,7 @@ class Interface
     end
   end
 
-  protected
+ # protected
   def menu
     puts "To create an object, type 1"
     puts "To perform actions with an object, type 2"
