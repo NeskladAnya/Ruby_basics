@@ -61,7 +61,7 @@ class Interface
     end
   end
 
- # protected
+#  protected
   def menu
     puts "To create an object, type 1"
     puts "To perform actions with an object, type 2"
@@ -242,11 +242,18 @@ class Interface
     raise "No train found" unless @all_trains.include?(train)
     
     if train.type == "cargo"
-      carriage = CargoCarriage.new
+      print "Enter the carriage capacity: "
+      capacity = gets.chomp.to_i
+
+      carriage = CargoCarriage.new(capacity)
     elsif train.type == "passenger"
-      carriage = PassengerCarriage.new
+      print "Enter the number of seats: "
+      seats = gets.chomp.to_i
+
+      carriage = PassengerCarriage.new(seats)
     end
 
+    puts "A new carriage was added to the train"
     train.add_carriage(carriage)
   rescue Exception => e
     puts e.message
@@ -262,6 +269,28 @@ class Interface
     raise "The train doesn't have a carriage" if train.carriages.nil?
 
     train.remove_carriage
+  rescue Exception => e
+    puts e.message
+  end
+
+  def take_passenger_seat
+    print "Enter a train number: "
+    number = gets.chomp
+
+    train = get_train(number)
+
+    raise "No train found" unless @all_trains.include?(train)
+    raise "Incorrect train type" if train.type != "passenger"
+    raise "The train should have at least one carriage" if train.carriages.empty?
+
+    puts "Total number of carriages: #{train.carriages.count}"
+
+    print "Enter the carriage number: "
+    carriage_number = gets.chomp.to_i
+
+    carriage = train.carriages[carriage_number-1]
+
+    carriage.take_seat
   rescue Exception => e
     puts e.message
   end
