@@ -1,15 +1,3 @@
-require_relative 'instance_counter'
-require_relative 'manufacturer'
-require_relative 'interface'
-require_relative 'station'
-require_relative 'route'
-require_relative 'train'
-require_relative 'cargo_train'
-require_relative 'passenger_train'
-require_relative 'carriage'
-require_relative 'cargo_carriage'
-require_relative 'passenger_carriage'
-
 class Interface
   attr_reader :all_stations, :all_routes, :all_trains, :selected_station, :menu_answer
 
@@ -48,14 +36,16 @@ class Interface
       when 8
         self.remove_carriage
       when 9
-        self.move_train_forward
+        self.use_capacity
       when 10
-        self.move_train_backward
+        self.move_train_forward
       when 11
-        self.see_all_stations
+        self.move_train_backward
       when 12
-        self.display_station_trains
+        self.see_all_stations
       when 13
+        self.display_station_trains
+      when 14
         self.display_train_carriages
       else
         puts "Error"
@@ -63,7 +53,7 @@ class Interface
     end
   end
 
-#  protected
+  protected
   def menu
     puts "To create an object, type 1"
     puts "To perform actions with an object, type 2"
@@ -86,13 +76,14 @@ class Interface
       puts "To add a route to the train, type 6"
       puts "To add a carriage to the the train, type 7"
       puts "To detach a carriage from the train, type 8"
-      puts "To move a train one station forward, type 9"
-      puts "To move a train one station backward, type 10"
+      puts "To take a seat or use train capacity, type 9"
+      puts "To move a train one station forward, type 10"
+      puts "To move a train one station backward, type 11"
       puts "----------------"
     elsif @menu_answer == 3
-      puts "To see a list of all stations, type 11"
-      puts "To see a list of trains at the station, type 12"
-      puts "To see a train carriages, type 13"
+      puts "To see a list of all stations, type 12"
+      puts "To see a list of trains at the station, type 13"
+      puts "To see a train carriages, type 14"
       puts "----------------"
     end
   end
@@ -101,6 +92,7 @@ class Interface
     @sub_menu_answer = gets.chomp.to_i
   end
 
+#Answers 1-3
   def new_station
     print "Enter a station name: "
     name = gets.chomp
@@ -110,13 +102,6 @@ class Interface
   rescue Exception => e
     puts e.message
     retry
-  end
-
-  def see_all_stations
-    raise "No stations found" if @all_stations.empty?
-    @all_stations.each { |station| puts station.station_name}
-  rescue Exception => e
-      puts e.message
   end
 
   def new_route
@@ -136,6 +121,27 @@ class Interface
     retry
   end
 
+  def new_train
+    print "Enter a train number: "
+    number = gets.chomp
+
+    print "Enter the train type ('cargo' or 'passenger'): "
+    type = gets.chomp.downcase
+
+    if type == "cargo"
+      @all_trains << CargoTrain.new(number)
+    elsif type == "passenger"
+      @all_trains << PassengerTrain.new(number)
+    else
+      raise "Incorrect train type"
+    end
+    puts "A #{type} train number #{number} was created"
+  rescue Exception => e
+    puts e.message
+    retry
+  end
+
+#Answers 4-11
   def add_route_station
     raise "No stations found" if @all_stations.empty?
     raise "No routes found" if @all_routes.empty?
@@ -182,50 +188,6 @@ class Interface
     route.remove_station(station)
   rescue Exception => e
     puts e.message
-  end
-
-  def display_station_trains
-    print "Enter the staion name: "
-    name = gets.chomp
-
-    station = self.get_station(name)
-
-    raise "No station found" if station.nil?
-
-    station.trains_info
-  rescue Exception => e
-    puts e.message
-  end
-
-  def display_train_carriages
-    print "Enter the train number: "
-    number = gets.chomp
-
-    train = self.get_train(number)
-
-    raise "No train found" unless @all_trains.include?(train)
-
-    train.carriage_info
-  end
-
-  def new_train
-    print "Enter a train number: "
-    number = gets.chomp
-
-    print "Enter the train type ('cargo' or 'passenger'): "
-    type = gets.chomp.downcase
-
-    if type == "cargo"
-      @all_trains << CargoTrain.new(number)
-    elsif type == "passenger"
-      @all_trains << PassengerTrain.new(number)
-    else
-      raise "Incorrect train type"
-    end
-    puts "A #{type} train number #{number} was created"
-  rescue Exception => e
-    puts e.message
-    retry
   end
 
   def set_train_route
@@ -288,14 +250,13 @@ class Interface
     puts e.message
   end
 
-  def take_passenger_seat
+  def use_capacity
     print "Enter a train number: "
     number = gets.chomp
 
     train = get_train(number)
 
     raise "No train found" unless @all_trains.include?(train)
-    raise "Incorrect train type" if train.type != "passenger"
     raise "The train should have at least one carriage" if train.carriages.empty?
 
     puts "Total number of carriages: #{train.carriages.count}"
@@ -305,7 +266,14 @@ class Interface
 
     carriage = train.carriages[carriage_number-1]
 
-    carriage.take_seat
+    if carriage.type == "passenger"
+      carriage.use_capacity
+    elsif carriage.type == "cargo"
+      print "Enter the capacity: "
+      capacity = gets.chomp.to_i
+
+      carriage.use_capacity(capacity)
+    end
   rescue Exception => e
     puts e.message
   end
@@ -334,6 +302,40 @@ class Interface
     raise "The train doesn't have a route" if train.route.nil?
 
     train.move_backward
+  rescue Exception => e
+    puts e.message
+  end
+
+#Answers 12-14
+  def see_all_stations
+    raise "No stations found" if @all_stations.empty?
+    @all_stations.each { |station| puts station.station_name}
+  rescue Exception => e
+      puts e.message
+  end
+
+  def display_station_trains
+    print "Enter the staion name: "
+    name = gets.chomp
+
+    station = self.get_station(name)
+
+    raise "No station found" if station.nil?
+
+    station.trains_info
+  rescue Exception => e
+    puts e.message
+  end
+
+  def display_train_carriages
+    print "Enter the train number: "
+    number = gets.chomp
+
+    train = self.get_train(number)
+
+    raise "No train found" unless @all_trains.include?(train)
+
+    train.carriage_info
   rescue Exception => e
     puts e.message
   end
