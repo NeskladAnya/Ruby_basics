@@ -77,6 +77,20 @@ class Train
     end
   end
 
+  def carriage_info
+    raise "No carriages found" if self.carriages.empty?
+
+    self.train_block do |carriage| 
+      puts "The carriage number: #{carriage.number}"
+      puts "The carriage type: #{carriage.type}"
+      puts "Available capacity: #{carriage.available_capacity}"
+      puts "Used capacity: #{carriage.used_capacity}"
+      puts "----------------"
+    end
+  rescue Exception => e
+    puts e.message
+  end
+
   def train_block(&block)
     carriages.each(&block)
   end

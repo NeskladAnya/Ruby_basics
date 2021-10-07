@@ -35,6 +35,16 @@ class Station
     @station_trains.delete(train)
   end
 
+  def trains_info
+    raise "No trains at the station" if self.station_trains.empty?
+
+    self.station_block do |train| 
+      puts "The train number: #{train.number}, the train type: #{train.type}, the number of carriages: #{train.carriages.count}"
+    end
+  rescue Exception => e
+    puts e.message
+  end
+
   def station_block(&block)
     station_trains.each(&block)
   end
@@ -44,5 +54,6 @@ class Station
     raise "A station name cannot be empty" if station_name.empty?
     raise "A station name should be at least 2 symbols" if station_name.length < 2
   end
+  
 end
 

@@ -55,6 +55,8 @@ class Interface
         self.see_all_stations
       when 12
         self.display_station_trains
+      when 13
+        self.display_train_carriages
       else
         puts "Error"
       end
@@ -90,6 +92,7 @@ class Interface
     elsif @menu_answer == 3
       puts "To see a list of all stations, type 11"
       puts "To see a list of trains at the station, type 12"
+      puts "To see a train carriages, type 13"
       puts "----------------"
     end
   end
@@ -182,15 +185,27 @@ class Interface
   end
 
   def display_station_trains
-    print "Enter the station name: "
+    print "Enter the staion name: "
     name = gets.chomp
 
     station = self.get_station(name)
+
     raise "No station found" if station.nil?
 
-    station.station_trains.each { |train| puts train.number }
+    station.trains_info
   rescue Exception => e
     puts e.message
+  end
+
+  def display_train_carriages
+    print "Enter the train number: "
+    number = gets.chomp
+
+    train = self.get_train(number)
+
+    raise "No train found" unless @all_trains.include?(train)
+
+    train.carriage_info
   end
 
   def new_train
