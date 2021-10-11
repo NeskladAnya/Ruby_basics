@@ -7,7 +7,7 @@ class Station
   def self.all
     @@instances
   end
-    
+
   def initialize(station_name)
     @station_name = station_name
     @station_trains = []
@@ -28,7 +28,7 @@ class Station
   end
 
   def train_type(type)
-    station_trains.select { |train| train.type == type}
+    station_trains.select { |train| train.type == type }
   end
 
   def train_departs(train)
@@ -36,9 +36,9 @@ class Station
   end
 
   def trains_info
-    raise "No trains at the station" if self.station_trains.empty?
+    raise 'No trains at the station' if @station_trains.empty?
 
-    self.station_block do |train| 
+    station_block do |train| 
       puts "The train number: #{train.number}, the train type: #{train.type}, the number of carriages: #{train.carriages.count}"
     end
   rescue Exception => e
@@ -50,10 +50,9 @@ class Station
   end
 
   private
-  def validate!
-    raise "A station name cannot be empty" if station_name.empty?
-    raise "A station name should be at least 2 symbols" if station_name.length < 2
-  end
-  
-end
 
+  def validate!
+    raise 'A station name cannot be empty' if station_name.empty?
+    raise 'A station name should be at least 2 symbols' if station_name.length < 2
+  end
+end

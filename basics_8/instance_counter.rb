@@ -12,6 +12,7 @@ module InstanceCounter
     end
 
     protected
+
     def increase_instance
       self.instances += 1
     end
