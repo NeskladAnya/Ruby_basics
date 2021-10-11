@@ -8,7 +8,7 @@ class PassengerCarriage < Carriage
 
     @available_capacity -= 1
     @used_capacity += 1
-  rescue Exception => e
+  rescue StandardError => e
     puts e.message
   end
 end

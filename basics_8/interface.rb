@@ -75,7 +75,7 @@ class Interface
 
     @all_stations << Station.new(name)
     puts "A station #{name} was created"
-  rescue Exception => e
+  rescue StandardError => e
     puts e.message
     retry
   end
@@ -92,7 +92,7 @@ class Interface
     @all_routes << route
     @all_stations.push(route.starting_station, route.end_station)
     puts "A new route #{first} - #{last} was created"
-  rescue Exception => e
+  rescue StandardError => e
     puts e.message
     retry
   end
@@ -113,7 +113,7 @@ class Interface
       raise 'Incorrect train type'
     end
     puts "A #{type} train number #{number} was created"
-  rescue Exception => e
+  rescue StandardError => e
     puts e.message
     retry
   end
@@ -140,7 +140,7 @@ class Interface
 
     route.add_station(station)
     puts "Station #{station_name} was added to the route #{first_station} - #{last_station}."
-  rescue Exception => e
+  rescue StandardError => e
     puts e.message
   end
 
@@ -161,7 +161,7 @@ class Interface
     raise 'No route found' if route.nil?
 
     route.remove_station(station)
-  rescue Exception => e
+  rescue StandardError => e
     puts e.message
   end
 
@@ -182,7 +182,7 @@ class Interface
     raise 'No route found' if route.nil?
 
     train.add_train_route(route)
-  rescue Exception => e
+  rescue StandardError => e
     puts e.message
   end
 
@@ -208,7 +208,7 @@ class Interface
 
     puts 'A new carriage was added to the train'
     train.add_carriage(carriage)
-  rescue Exception => e
+  rescue StandardError => e
     puts e.message
   end
 
@@ -221,7 +221,7 @@ class Interface
     raise "The train doesn't have a carriage" if train.carriages.empty?
 
     train.remove_carriage
-  rescue Exception => e
+  rescue StandardError => e
     puts e.message
   end
 
@@ -249,7 +249,7 @@ class Interface
 
       carriage.use_capacity(capacity)
     end
-  rescue Exception => e
+  rescue StandardError => e
     puts e.message
   end
 
@@ -262,7 +262,7 @@ class Interface
     raise "The train doesn't have a route" if train.route.nil?
 
     train.move_forward
-  rescue Exception => e
+  rescue StandardError => e
     puts e.message
   end
 
@@ -275,7 +275,7 @@ class Interface
     raise "The train doesn't have a route" if train.route.nil?
 
     train.move_backward
-  rescue Exception => e
+  rescue StandardError => e
     puts e.message
   end
 
@@ -284,7 +284,7 @@ class Interface
     raise 'No stations found' if @all_stations.empty?
 
     @all_stations.each { |station| puts station.station_name }
-  rescue Exception => e
+  rescue StandardError => e
     puts e.message
   end
 
@@ -296,7 +296,7 @@ class Interface
     raise 'No station found' if station.nil?
 
     station.trains_info
-  rescue Exception => e
+  rescue StandardError => e
     puts e.message
   end
 
@@ -308,7 +308,7 @@ class Interface
     raise 'No train found' if train.nil?
 
     train.carriage_info
-  rescue Exception => e
+  rescue StandardError => e
     puts e.message
   end
 

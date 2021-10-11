@@ -38,7 +38,7 @@ class Train
     raise 'The carriage type error' if @type != carriage.type
 
     @carriages << carriage if speed.zero?
-  rescue Exception => e
+  rescue StandardError => e
     puts e.message
   end
 
@@ -56,7 +56,7 @@ class Train
     raise 'No previous station found' if @current_station == @route.stations.first
 
     @previous_station = @route.stations[@route.stations.index(@current_station) - 1]
-  rescue Exception => e
+  rescue StandardError => e
     puts e.message
   end
 
@@ -64,7 +64,7 @@ class Train
     raise 'No next station found' if @current_station == @route.stations.last
 
     @next_station = @route.stations[@route.stations.index(@current_station) + 1]
-  rescue Exception => e
+  rescue StandardError => e
     puts e.message
   end
 
@@ -75,7 +75,7 @@ class Train
     @current_station.train_departs(self)
     @current_station = @route.stations[@route.stations.index(@current_station) + 1]
     @current_station.train_arrives(self)
-  rescue Exception => e
+  rescue StandardError => e
     puts e.message
   end
 
@@ -86,7 +86,7 @@ class Train
     @current_station.train_departs(self)
     @current_station = @route.stations[@route.stations.index(@current_station) - 1]
     @current_station.train_arrives(self)
-  rescue Exception => e
+  rescue StandardError => e
     puts e.message
   end
 
@@ -100,7 +100,7 @@ class Train
       puts "Used capacity: #{carriage.used_capacity}"
       puts '----------------'
     end
-  rescue Exception => e
+  rescue StandardError => e
     puts e.message
   end
 

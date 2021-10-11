@@ -41,7 +41,7 @@ class Station
     station_block do |train|
       puts "The train number: #{train.number}, the train type: #{train.type}, the number of carriages: #{train.carriages.count}"
     end
-  rescue Exception => e
+  rescue StandardError => e
     puts e.message
   end
 

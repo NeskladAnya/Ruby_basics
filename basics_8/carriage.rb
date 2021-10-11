@@ -19,7 +19,7 @@ class Carriage
 
     @available_capacity -= value
     @used_capacity += value
-  rescue Exception => e
+  rescue StandardError => e
     puts e.message
   end
 end

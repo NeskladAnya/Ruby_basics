@@ -20,7 +20,7 @@ class Route
 
     @stations.delete(station)
     puts "The #{station.station_name} station was deleted"
-  rescue Exception => e
+  rescue StandardError => e
     puts e.message
   end
 end
