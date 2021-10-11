@@ -19,7 +19,7 @@ class Station
   def valide?
     validate!
     true
-  rescue
+  rescue StandardError
     false
   end
 
@@ -38,7 +38,7 @@ class Station
   def trains_info
     raise 'No trains at the station' if @station_trains.empty?
 
-    station_block do |train| 
+    station_block do |train|
       puts "The train number: #{train.number}, the train type: #{train.type}, the number of carriages: #{train.carriages.count}"
     end
   rescue Exception => e

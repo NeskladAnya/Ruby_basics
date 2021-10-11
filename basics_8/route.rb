@@ -17,7 +17,7 @@ class Route
     raise 'No station found' unless @stations.include?(station)
     raise 'The first station cannot be deleted' if station == @stations[0]
     raise 'The last station cannot be deleted' if station == @stations[-1]
-    
+
     @stations.delete(station)
     puts "The #{station.station_name} station was deleted"
   rescue Exception => e

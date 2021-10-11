@@ -26,7 +26,7 @@ class Train
   def valide?
     validate!
     true
-  rescue
+  rescue StandardError
     false
   end
 
@@ -46,7 +46,7 @@ class Train
     @carriages.delete_at(0) if speed.zero?
   end
 
-  def set_route(route)
+  def add_train_route(route)
     @route = route
     @current_station = route.stations[0]
     route.stations[0].train_arrives(self)

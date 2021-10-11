@@ -181,7 +181,9 @@ class Interface
     route = get_route(first_station, last_station)
     raise 'No route found' if route.nil?
 
-    train.set_route(route)
+    train.add_train_route(route)
+  rescue Exception => e
+    puts e.message
   end
 
   def add_carriage
@@ -236,7 +238,7 @@ class Interface
     print 'Enter the carriage number: '
     carriage_number = gets.chomp.to_i
 
-    carriage = train.carriages[carriage_number-1]
+    carriage = train.carriages[carriage_number - 1]
 
     case carriage.type
     when 'passenger'
