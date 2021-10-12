@@ -1,0 +1,23 @@
+Style/Documentation:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Style/MutableConstant:
+  Enabled: false
+
+Style/ClassVars:
+  Enabled: false
+
+Metrics/AbcSize:
+  Enabled: false
+
+Metrics/ClassLength:
+  Max: 255
+
+Metrics/MethodLength:
+  Max: 25
+
+Layout/LineLength:
+  Max: 130
