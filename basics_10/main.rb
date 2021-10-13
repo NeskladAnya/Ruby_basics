@@ -1,3 +1,4 @@
+require_relative 'accessors'
 require_relative 'instance_counter'
 require_relative 'manufacturer'
 require_relative 'interface'
