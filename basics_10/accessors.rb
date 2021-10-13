@@ -29,10 +29,3 @@ module Accessors
     end
   end
 end
-
-class Test
-  extend Accessors
-
-  attr_accessor_with_history :name
-  strong_attr_accessor number: Integer, type: String
-end
