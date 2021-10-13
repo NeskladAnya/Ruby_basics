@@ -23,7 +23,8 @@ module Accessors
       define_method(attribute) { instance_variable_get(var) }
 
       define_method("#{attribute}=".to_sym) do |value|
-        raise "Incorrect class" unless value.is_a?(class_name)
+        raise 'Incorrect class' unless value.is_a?(class_name)
+
         instance_variable_set(var, value)
       end
     end
