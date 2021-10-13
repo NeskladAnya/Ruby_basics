@@ -1,9 +1,10 @@
 class Train
+  extend Accessors
   include Manufacturer
   include InstanceCounter
-
+  
   attr_reader :number, :type, :carriages, :current_station, :route
-  attr_accessor :speed
+  attr_accessor_with_history :speed
 
   TRAIN_NUMBER = /\A[0-9a-zа-я]{3}-?[0-9a-zа-я]{2}\z/i
 
