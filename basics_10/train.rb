@@ -15,7 +15,7 @@ class Train
   end
 
   def initialize(number)
-    @number = number.to_s
+    @number = number.to_s.strip
     @type = nil
     @carriages = []
     @speed = 0

@@ -9,7 +9,7 @@ class Station
   end
 
   def initialize(station_name)
-    @station_name = station_name
+    @station_name = station_name.strip
     @station_trains = []
     @@instances.push(self)
     register_instance
