@@ -8,7 +8,7 @@ class Carriage
   def initialize(capacity)
     @@number += 1
     @number = @@number
-    @capacity = capacity.strip
+    @capacity = capacity
     @available_capacity = capacity
     @used_capacity = 0
     @type = nil
